@@ -10,9 +10,14 @@
     "frontendDist": "../dist"
   },
   "app": {
+		"macOSPrivateApi": true,
     "windows": [
       {
-				"alwaysOnTop": true,
+				"decorations": false,
+				"resizable": false,
+				"decorations": false,
+				"center": true,
+				"visible": false,
         "title": "Moony 🌕",
         "width": 600,
         "height": 200
