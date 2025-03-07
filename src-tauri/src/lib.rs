@@ -1,6 +1,7 @@
 use tauri::{Listener, Manager};
 use tauri_nspanel::ManagerExt;
 use tauri_plugin_global_shortcut::{Code, Modifiers, Shortcut, ShortcutState};
+use tauri_plugin_sql::{Builder as SqlBuilder, Migration, MigrationKind};
 use window::WebviewWindowExt;
 
 mod command;
@@ -59,6 +60,22 @@ fn setup_spotlight_panel() -> Box<dyn FnOnce(&mut tauri::App) -> Result<(), Box<
     })
 }
 
+fn get_migrations() -> Vec<Migration> {
+    vec![
+        Migration {
+            version: 1, //each migration should have unique version number
+            description: "create_searches_table",
+            sql: "CREATE TABLE searches (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                query TEXT NOT NULL,
+                last_access_time TEXT NOT NULL,
+                access_count INTEGER DEFAULT 1
+            );",
+            kind: MigrationKind::Up,
+        }
+    ]
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -73,6 +90,11 @@ pub fn run() {
         .plugin(setup_global_shortcut())
         .plugin(tauri_plugin_positioner::init())
         .plugin(tauri_plugin_opener::init())
+        .plugin(
+            SqlBuilder::default()
+                .add_migrations("sqlite:moony_launcher.db", get_migrations())
+                .build(),
+        )
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

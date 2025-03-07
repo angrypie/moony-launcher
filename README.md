@@ -3,8 +3,8 @@
 ## TODO
 
 ### History
-- [ ] Persist requests to history and use simple search
-- [ ] Fuzzy search for entries in history
+- [ ] Fuzzy search for entries in history using nucleo crate
+- [x] Persist requests to history and use simple search
 
 
 ### UI

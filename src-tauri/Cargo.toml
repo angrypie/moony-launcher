@@ -25,6 +25,7 @@ serde_json = "1"
 tauri-nspanel = { git = "https://github.com/ahkohd/tauri-nspanel", branch = "v2" }
 monitor = { git = "https://github.com/ahkohd/tauri-toolkit", branch = "v2" }
 thiserror = "2.0.12"
+tauri-plugin-sql = { version = "2", features = ["sqlite"] }
 
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
 tauri-plugin-global-shortcut = "2"
